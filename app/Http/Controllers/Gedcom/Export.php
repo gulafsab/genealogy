@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Storage;
 
 class Export extends Controller
 {
+
     public function __invoke(Request $request)
     {
         $ts = microtime(true);
@@ -20,17 +21,17 @@ class Export extends Controller
         $file = str_replace("'", '', $file);
 
         //TODO need data for testing
-        $conn = 'tenant';
-        $p_id = 1;
-        $f_id = 1;
-        $up_nest = 0;
-        $down_nest = 0;
-        $_name = uniqid().'.ged';
+//        $conn = 'tenant';
+//        $p_id = 1;
+//        $f_id = 1;
+//        $up_nest = 0;
+//        $down_nest = 0;
+//        $_name = uniqid().'.ged';
+//
+//        $writer = new GedcomGenerator($p_id, $f_id, $up_nest, $down_nest);
+//        $content = $writer->getGedcomPerson();
 
-        $writer = new GedcomGenerator($p_id, $f_id, $up_nest, $down_nest);
-        $content = $writer->getGedcomPerson();
-
-        ExportGedCom::dispatch($file);
+        ExportGedCom::dispatch($request->user(),$file);
         $path = Storage::path($file);
 
         return json_encode([

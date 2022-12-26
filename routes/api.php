@@ -1453,10 +1453,15 @@ Route::middleware(['auth', 'api'])
     ->group(function () {
         Route::get('get_companies', [CompanyIndex::class, 'getCompany']);
         Route::get('get_person', [PersonaliasIndex::class, 'getPerson']);
-        Route::post('gedcom-export', GedcomExport::class);
+
         Route::get('trees/options', [TreesManage::class, 'getOptions']);
     });
-
+//Gedcom export
+Route::middleware(['auth', 'api', 'multitenant'])
+    ->group(function () {
+        Route::post('gedcom-export', GedcomExport::class);
+    });
+//Gedcom export
 //Route::get('test/{cid}', function($cid){
 //    session('current_company_id', $cid);
 //    retrun success;

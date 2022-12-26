@@ -52,8 +52,8 @@ class Multitenant
             session()->put('db', $value);
         $x = config([$key => $value]);
             //if ($conn === 'tenant') {
-        $databaseName = \DB::connection('tenantdb')->getDatabaseName();
-        Log::debug('DB-'.$databaseName);
+//        $databaseName = \DB::connection('tenantdb')->getDatabaseName();
+//        Log::debug('DB-'.$databaseName);
 
 
 

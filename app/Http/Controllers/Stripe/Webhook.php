@@ -17,10 +17,12 @@ class Webhook extends Controller
      */
     public function __invoke(Request $request)
     {
+        \Log::debug($request);
         Stripe\Stripe::setApiKey(\Config::get('services.stripe.secret'));
         $plans = Stripe\Plan::all();
         $data = request()->all();
         $user = User::where('stripe_id', $data['data']['object']['customer'])->first();
+        \Log::debug($user->role_id.'-roleId1');
         if ($user) {
             $plan_nickname = $data['data']['object']['items']['data'][0]['plan']['nickname'];
             foreach ($plans as $plan) {
