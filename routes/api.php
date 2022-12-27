@@ -365,6 +365,11 @@ use App\Http\Controllers\Topic\TableData as TopicTableData;
 use App\Http\Controllers\Topic\Update as TopicUpdate;
 use App\Http\Controllers\Trees\Manage as TreesManage;
 use App\Http\Controllers\Trees\Show as TreesShow;
+use App\Http\Controllers\Trees\InitTable as TreesInitTable;
+use App\Http\Controllers\Trees\TableData as TreesTableData;
+use App\Http\Controllers\Trees\ExportExcel as TreesExportExcel;
+use App\Http\Controllers\Trees\Create as TreesCreate;
+use App\Http\Controllers\Trees\Options as TreesOptions;
 use App\Http\Controllers\Types\Create as TypesCreate;
 use App\Http\Controllers\Types\Destroy as TypesDestroy;
 use App\Http\Controllers\Types\Edit as TypesEdit;
@@ -729,6 +734,42 @@ Route::middleware(['api', 'auth', 'core', 'multitenant'])
 
 Route::middleware(['api', 'auth', 'core', 'multitenant'])
     ->group(function () {
+        Route::namespace('')
+            ->prefix('trees')
+            ->as('trees.')
+            ->group(function () {
+                Route::get('initTable', TreesInitTable::class)->name('initTable');
+            });
+        Route::namespace('')
+            ->prefix('trees')
+            ->as('trees.')
+            ->group(function () {
+                Route::get('tableData', TreesTableData::class)->name('tableData');
+            });
+        Route::namespace('')
+            ->prefix('trees')
+            ->as('trees.')
+            ->group(function () {
+                Route::get('exportExcel', TreesExportExcel::class)->name('exportExcel');
+            });
+        Route::namespace('')
+            ->prefix('trees')
+            ->as('trees.')
+            ->group(function () {
+                Route::get('options', TreesOptions::class)->name('options');
+            });
+        Route::namespace('')
+            ->prefix('trees')
+            ->as('trees.')
+            ->group(function () {
+                Route::get('create', TreesCreate::class)->name('create');
+            });
+        Route::namespace('')
+            ->prefix('trees')
+            ->as('trees.')
+            ->group(function () {
+                Route::get('store', \App\Http\Controllers\Trees\Store::class)->name('store');
+            });
         Route::namespace('')
             ->prefix('trees')
             ->as('trees.')

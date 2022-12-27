@@ -1,0 +1,31 @@
+{
+    "title" : "Create Tree",
+    "icon": "location-arrow",
+    "routePrefix": "trees",
+  "tabs": true,
+  "sections": [
+    {
+      "tab": "Tree",
+      "columns": 3,
+        "fields": [{
+            "label": "Name",
+            "name": "name",
+            "value": null,
+            "meta": {
+                "type": "input",
+                "content": "text"
+            }
+        },
+            {
+                "label": "Description",
+                "name": "description",
+                "value": null,
+                "meta": {
+                    "type": "input",
+                    "content": "text"
+                }
+            }
+
+        ]
+    }]
+}

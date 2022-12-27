@@ -1,0 +1,15 @@
+{
+    "name": "Trees",
+    "routePrefix": "trees",
+    "crtNo": true,
+    "buttons": ["excel", "create"],
+    "columns": [
+        {
+            "label": "Title",
+            "name": "title",
+            "data": "trees.title",
+            "meta": ["searchable", "sortable"]
+        }
+    ]
+}
+
