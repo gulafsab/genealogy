@@ -14,13 +14,24 @@ class GeneanumController extends Controller
 
         $URI = 'https://static.geneanum.com/libs/grid/malte_sepulture.php';
 
-        $response = $client->request('POST', $URI, ['query' => [
+        $response = $client->request('GET', $URI, [
+//            'http_errors'=>false,
+            'query' => [
             'prenom' => $request->FirstName,
             'nom' => $request->LastName,
             'annee_limite' => $request->per_page, // 100
             'row' => $request->row, // 100
             'sidx' => $request->sidx, // 100
             'start' => ($request->per_page * $request->page) - $request->per_page, // 2,
+//            '_search'=>true,
+////            'nd'=>'1672298681602',
+//            'rows'=>6,
+//            'page'=>1,
+//            'sidx'=>'nom',
+//            'sord'=>'asc',
+//            'prenom'=>'Angela',
+//            'prenom_pere'=>'',
+//            'nom_mere'=>''
         ]]);
 
         $statusCode = $response->getStatusCode();

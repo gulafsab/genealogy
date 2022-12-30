@@ -470,8 +470,8 @@ use LaravelEnso\ControlPanelApi\Http\Controllers\Statistics as ControlPanelStati
 
 // use App\Http\Controllers\Families\ExportGramps as FamiliesExportGramps;
 
-Route::get('gramps-export', [ExportGramps::class, 'export']);
-Route::post('gramps-import', [ImportGramps::class, 'import']);
+Route::middleware(['auth', 'multitenant'])->get('gramps-export', [ExportGramps::class, 'export']);
+Route::middleware(['auth', 'multitenant'])->post('gramps-import', [ImportGramps::class, 'import']);
 
 Route::namespace('Auth')
     ->middleware('api')

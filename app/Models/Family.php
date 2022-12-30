@@ -9,5 +9,5 @@ use LaravelEnso\Tables\Traits\TableCache;
 class Family extends \FamilyTree365\LaravelGedcom\Models\Family
 {
     use TableCache, HasFactory;
-    use TenantConnectionResolver;
+//    use TenantConnectionResolver;
 }

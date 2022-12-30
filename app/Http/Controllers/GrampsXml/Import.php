@@ -45,14 +45,14 @@ class Import extends Controller
                 continue;
             }
 
-            $description = $family['description'];
+            $description = ($family['description']==''?$family['description']:null);
 
             $husband = $this->createPerson($family['husband'], null, 'M');
             $wife = $this->createPerson($family['wife'], null, 'F');
 
             $fam = Family::where('husband_id', $husband->id)->where('wife_id', $wife->id)->first();
 
-            if (! $fam) {
+            if (!$fam) {
                 $fam = Family::create([
                     'description'=>$description,
                     'husband_id'=>$husband->id,

@@ -9,14 +9,27 @@ use Flowgistics\XML\Transformers\ArrayTransformer;
 use Flowgistics\XML\XML;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use App\Tenant\Manager;
 
 class Export extends Controller
 {
     public function export(Request $request)
     {
+        $ts = microtime(true);
+        $file = env('APP_NAME').date('_Ymd_').$ts.'.xml';
+        $file = str_replace(' ', '', $file);
+        $file = str_replace("'", '', $file);
+        $user =$request->user();
+        if (!$user->isAdmin()) {
+            $tenant = Manager::fromModel($user->company(), $user)->connect(true);
+//            \Log::debug($this->user->company());
+        }
         $data = [];
 
         $families = Family::all();
+        if (!$user->isAdmin()) {
+            $tenant->disconnect();
+        }
 
         foreach ($families as $family) {
             $familyId = $family->id;
@@ -45,7 +58,13 @@ class Export extends Controller
         $xml = XML::export(['family'=>$data])->rootTag('database')
             ->toString();
 
-        return $xml;
+//        return $xml;
+        //XML Export
+        \Storage::disk('public')->put($file, $xml);
+        return json_encode([
+            'file' => \Storage::disk('public')->get($file),
+            'name' => $file,
+        ]);
     }
 
     protected function getPersonDetail($person)
