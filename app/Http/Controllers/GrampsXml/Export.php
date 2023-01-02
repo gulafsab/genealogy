@@ -22,7 +22,6 @@ class Export extends Controller
         $user =$request->user();
         if (!$user->isAdmin()) {
             $tenant = Manager::fromModel($user->company(), $user)->connect(true);
-//            \Log::debug($this->user->company());
         }
         $data = [];
 

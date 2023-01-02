@@ -4,13 +4,14 @@ namespace App\Http\Controllers\GrampsXml;
 
 use App\Models\Family;
 use App\Models\FamilyEvent;
-use App\Models\Person;
+use FamilyTree365\LaravelGedcom\Models\Person;
 use Flowgistics\XML\Transformers\ArrayTransformer;
 use Flowgistics\XML\XML;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
+use App\Tenant\Manager;
 
 class Import extends Controller
 {
@@ -24,7 +25,10 @@ class Import extends Controller
         $request->validate([
             'file' => ['required', 'file', 'mimes:xml'],
         ]);
-
+        $user = $request->user();
+        if (!$user->isAdmin()) {
+            $tenant = Manager::fromModel($user->company(), $user)->connect(true);
+        }
         // save file as temp and convert to json
         $res = $this->fileToJson($request);
 
@@ -65,6 +69,9 @@ class Import extends Controller
             }
         }
 
+        if (!$user->isAdmin()) {
+            $tenant->disconnect();
+        }
         // remove temp file after importing
         Storage::delete('files/temp/'.$fileName);
 
@@ -110,6 +117,7 @@ class Import extends Controller
 
     protected function createPerson($arr, $parentId = null, $defaultGender = null)
     {
+
         $p = Person::where('givn', $arr['name']['first_name'])->where('surn', $arr['name']['last_name'])->where('birthday', $arr['birthday'].' 00:00:00')->first();
 
         if ($p) {
@@ -117,7 +125,6 @@ class Import extends Controller
                 $p->child_in_family_id = $parentId;
                 $p->save();
             }
-
             return $p;
         }
 
